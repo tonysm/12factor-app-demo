@@ -1,0 +1,1 @@
+FROM madewithlove/images:php-7.1-dev

@@ -3,28 +3,48 @@ version: '3'
 services:
     web:
         image: demoapp/frontend
+        volumes:
+            - $PWD/frontend:/app
         build: 
             dockerfile: ./devops/docker/frontend/Dockerfile
             context: .
         ports:
-            - "80:80"
+            - "80:3000"
         networks:
             - front
-            - back
     api:
         image: demoapp/api
         build:
             dockerfile: ./devops/docker/api/Dockerfile
             context: .
+        volumes:
+            - $PWD/api:/var/www/html
         ports:
             - "8080:80"
+        networks:
+            - front
+            - back
+
+    apidb:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: "homestead"
+            MYSQL_DATABASE: "homestead"
+            MYSQL_USER: "homestead"
+            MYSQL_PASSWORD: "secret"
+        ports:
+            - "3306:3306"
+        volumes:
+            - apidbdata:/var/lib/mysql
         networks:
             - back
 
 networks:
-    app:
+    front:
         driver: "bridge"
     back:
         driver: "bridge"
 
-
+volumes:
+    apidbdata:
+        driver: "local"
