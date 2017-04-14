@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    web:
+        image: demoapp/frontend
+        build: 
+            dockerfile: ./devops/docker/frontend/Dockerfile
+            context: .
+        ports:
+            - "80:80"
+        networks:
+            - front
+            - back
+    api:
+        image: demoapp/api
+        build:
+            dockerfile: ./devops/docker/api/Dockerfile
+            context: .
+        ports:
+            - "8080:80"
+        networks:
+            - back
+
+networks:
+    app:
+        driver: "bridge"
+    back:
+        driver: "bridge"
+
+
