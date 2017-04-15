@@ -9,7 +9,7 @@ services:
             dockerfile: ./devops/docker/frontend/Dockerfile
             context: .
         ports:
-            - "80:3000"
+            - "8080:3000"
         networks:
             - front
     api:
@@ -20,7 +20,7 @@ services:
         volumes:
             - $PWD/api:/var/www/html
         ports:
-            - "8080:80"
+            - "8081:80"
         networks:
             - front
             - back
@@ -33,7 +33,7 @@ services:
             MYSQL_USER: "homestead"
             MYSQL_PASSWORD: "secret"
         ports:
-            - "3306:3306"
+            - "33060:3306"
         volumes:
             - apidbdata:/var/lib/mysql
         networks:

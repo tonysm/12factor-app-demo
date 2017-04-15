@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import './App.css';
 
+const SERVER_HOST='http://localhost:8081';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -33,7 +35,7 @@ class App extends Component {
         let data = new FormData();
         data.append("task", newTodo);
 
-        fetch('http://localhost:8080/todos', {
+        fetch(`${SERVER_HOST}/todos`, {
             method: "POST",
             body: data,
         })
@@ -55,7 +57,7 @@ class App extends Component {
 
         let {todos} = this.state;
 
-        fetch(`http://localhost:8080/todos/${todo.id}`, {
+        fetch(`${SERVER_HOST}/todos/${todo.id}`, {
                 method: "DELETE",
             })
             .then(resp => resp.json())
@@ -74,7 +76,7 @@ class App extends Component {
     }
 
     componentWillMount() {
-        fetch('http://localhost:8080/todos')
+        fetch(`${SERVER_HOST}/todos`)
             .then(resp => resp.json())
             .then(todos => this.setState({
                 todos,
