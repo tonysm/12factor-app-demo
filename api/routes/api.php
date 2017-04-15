@@ -13,15 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/todos', function (Request $request) {
-    return \App\Todo::paginate();
-});
-
-Route::post('/todos', function (Request $request) {
-    return \App\Todo::create($request->only('task'));
-});
-
-Route::delete('/todos/{todo}', function (Request $request, \App\Todo $todo) {
-    $todo->delete();
-    return $todo;
-});
+Route::resource('todos', 'TodosController', [
+    'only' => ['index', 'store', 'destroy'],
+]);

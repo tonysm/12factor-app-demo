@@ -30,9 +30,7 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson([
-            'data' => [
-                ['id' => $todo->id],
-            ],
+            ['id' => $todo->id],
         ]);
     }
 
