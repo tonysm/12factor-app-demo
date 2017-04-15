@@ -24,3 +24,9 @@ ps:
 
 logs:
 	docker-compose logs -f
+
+api-tests:
+	docker-compose run --rm api ./vendor/bin/phpunit
+
+web-tests:
+	docker-compose run --rm web npm run test

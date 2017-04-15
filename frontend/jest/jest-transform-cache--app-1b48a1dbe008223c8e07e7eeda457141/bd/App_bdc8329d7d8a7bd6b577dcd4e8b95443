@@ -1,0 +1,128 @@
+/* istanbul ignore next */'use strict';Object.defineProperty(exports, "__esModule", { value: true });var _jsxFileName = '/app/src/App.js';var /* istanbul ignore next */_react = require('react'); /* istanbul ignore next */var _react2 = _interopRequireDefault(_react);
+
+/* istanbul ignore next */require('./App.css'); /* istanbul ignore next */function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+const SERVER_HOST = 'http://localhost:8081';
+
+class App extends /* istanbul ignore next */_react.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            newTodo: '',
+            todos: [],
+            loading: true };
+
+    }
+
+    updateNewTodo(e) {
+        this.setState({
+            newTodo: e.target.value });
+
+    }
+
+    createNewTodo(e) {
+        e.preventDefault();
+
+        if (this.state.loading) return;
+
+        this.setState({
+            loading: true });
+
+
+        let { todos, newTodo } = this.state;
+
+        let data = new FormData();
+        data.append("task", newTodo);
+
+        fetch(`${SERVER_HOST}/todos`, {
+            method: "POST",
+            body: data }).
+
+        then(resp => resp.json()).
+        then(todo => {
+            this.setState({
+                todos: [
+                ...todos,
+                todo],
+
+                loading: false,
+                newTodo: '' });
+
+        });
+    }
+
+    deleteTodo(todo) {
+        if (todo.deleted_at !== null) return;
+
+        let { todos } = this.state;
+
+        fetch(`${SERVER_HOST}/todos/${todo.id}`, {
+            method: "DELETE" }).
+
+        then(resp => resp.json()).
+        then(updatedTodo => {
+            let indexOf = todos.indexOf(todo);
+
+            this.setState({
+                todos: [
+                ...todos.slice(0, indexOf),
+                updatedTodo,
+                ...todos.slice(indexOf + 1)],
+
+                loading: false });
+
+        });
+    }
+
+    componentWillMount() {
+        fetch(`${SERVER_HOST}/todos`).
+        then(resp => resp.json()).
+        then(todos => this.setState({
+            todos,
+            loading: false }));
+
+    }
+
+    renderTodo(todo) {
+        let classes = ["list-group-item", "todo-item"];
+
+        if (todo.deleted_at !== null) {
+            classes.push("todo-completed");
+        }
+
+        return (
+            /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: classes.join(' '), key: todo.id, onClick: this.deleteTodo.bind(this, todo), __source: { fileName: _jsxFileName, lineNumber: 95 }, __self: this },
+                todo.task));
+
+
+    }
+
+    render() {
+        return (
+            /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'container', __source: { fileName: _jsxFileName, lineNumber: 103 }, __self: this },
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'h1', /* istanbul ignore next */{ __source: { fileName: _jsxFileName, lineNumber: 104 }, __self: this }, /* istanbul ignore next */'Awesome todo app'),
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'hr', /* istanbul ignore next */{ __source: { fileName: _jsxFileName, lineNumber: 105 }, __self: this }),
+
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'form', /* istanbul ignore next */{ onSubmit: this.createNewTodo.bind(this), __source: { fileName: _jsxFileName, lineNumber: 107 }, __self: this },
+                    /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'input', /* istanbul ignore next */{ type: 'text',
+                        className: 'form-control',
+                        value: this.state.newTodo,
+                        disabled: this.state.loading,
+                        placeholder: 'Add a new todo',
+                        onInput: this.updateNewTodo.bind(this), __source: { fileName: _jsxFileName, lineNumber: 108 }, __self: this })),
+
+
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'hr', /* istanbul ignore next */{ __source: { fileName: _jsxFileName, lineNumber: 116 }, __self: this }),
+
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'h4', /* istanbul ignore next */{ __source: { fileName: _jsxFileName, lineNumber: 118 }, __self: this }, /* istanbul ignore next */'Todos ', /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'small', /* istanbul ignore next */{ __source: { fileName: _jsxFileName, lineNumber: 118 }, __self: this }, /* istanbul ignore next */'(', this.state.todos.length, /* istanbul ignore next */')')),
+                /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'list-group', __source: { fileName: _jsxFileName, lineNumber: 119 }, __self: this },
+                    this.state.todos.map(todo => this.renderTodo(todo)),
+                    this.state.todos.length === 0 ? /* istanbul ignore next */_react2.default.createElement( /* istanbul ignore next */'div', /* istanbul ignore next */{ className: 'list-group-item', __source: { fileName: _jsxFileName, lineNumber: 121 }, __self: this }, /* istanbul ignore next */'Nothing todo.') : null)));
+
+
+
+    }} /* istanbul ignore next */exports.default =
+
+
+App;
