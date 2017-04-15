@@ -18,3 +18,9 @@ artisan:
 
 migrate:
 	@echo `docker-compose exec api php artisan migrate`
+
+ps:
+	docker-compose ps
+
+logs:
+	docker-compose logs -f
