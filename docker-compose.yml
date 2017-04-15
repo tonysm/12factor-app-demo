@@ -12,6 +12,7 @@ services:
             - "8080:3000"
         networks:
             - front
+
     api:
         image: demoapp/api
         build:
