@@ -1,4 +1,4 @@
-.PHONY: up down
+.PHONY: up down migrate
 
 MAKEPATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 PWD := $(dir $MAKEPATH)
@@ -10,3 +10,7 @@ up:
 
 down:
 	docker-compose down
+
+migrate:
+	docker-compose exec api \
+		php artisan migrate
