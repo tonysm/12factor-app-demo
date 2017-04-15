@@ -7,6 +7,7 @@ setup:
 
 up:
 	docker-compose up -d
+	@echo "You can now open http://localhost:8080"
 
 down:
 	docker-compose down
