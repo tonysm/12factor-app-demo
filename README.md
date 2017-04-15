@@ -22,8 +22,8 @@ make up
 
 This will make sure you have all the services up and running. You will have:
 
-* The webapp running on port 80
-* The API running on port 8080
+* The webapp running on port 8080
+* The API running on port 8081
 * The MySQL database on port 3306
 
 Before you go ahead and test it out, make sure you run the migrations first:
