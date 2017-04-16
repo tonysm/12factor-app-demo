@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 
 import './App.css';
 
@@ -75,7 +77,7 @@ class App extends Component {
             });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${SERVER_HOST}/todos`)
             .then(resp => resp.json())
             .then(todos => this.setState({
@@ -84,42 +86,30 @@ class App extends Component {
             }));
     }
 
-    renderTodo(todo) {
-        let classes = ["list-group-item", "todo-item"];
-
-        if (todo.deleted_at !== null) {
-            classes.push("todo-completed");
-        }
-
-        return (
-            <div className={classes.join(' ')} key={todo.id} onClick={this.deleteTodo.bind(this, todo)}>
-                {todo.task}
-            </div>
-        );
-    }
-
     render() {
         return (
             <div className="container">
                 <h1>Awesome todo app</h1>
+
                 <hr/>
 
-                <form onSubmit={this.createNewTodo.bind(this)}>
-                    <input type="text"
-                           className="form-control"
-                           value={this.state.newTodo}
-                           disabled={this.state.loading}
-                           placeholder="Add a new todo"
-                           onInput={this.updateNewTodo.bind(this)}/>
-                </form>
+                <TodoForm
+                    onSubmit={this.createNewTodo.bind(this)}
+                    onInput={this.updateNewTodo.bind(this)}
+                    value={this.state.newTodo}
+                    disabled={this.state.loading}
+                    placeholder="Add a new todo"
+                />
 
                 <hr/>
 
                 <h4>Todos <small>({this.state.todos.length})</small></h4>
-                <div className="list-group">
-                    {this.state.todos.map((todo) => this.renderTodo(todo))}
-                    {this.state.todos.length === 0 ? <div className="list-group-item">Nothing todo.</div> : null}
-                </div>
+
+                <TodoList
+                    items={this.state.todos}
+                    whenEmpty="Nothing todo"
+                    onDismiss={this.deleteTodo.bind(this)}
+                />
             </div>
         );
     }
