@@ -34,13 +34,10 @@ class App extends Component {
 
         let {todos, newTodo} = this.state;
 
-        let data = new FormData();
-        data.append("task", newTodo);
+        let body = new FormData();
+        body.append("task", newTodo);
 
-        fetch(`${SERVER_HOST}/todos`, {
-            method: "POST",
-            body: data,
-        })
+        fetch(`${SERVER_HOST}/todos`, {method: "POST", body})
             .then(resp => resp.json())
             .then(todo => {
                 this.setState({
