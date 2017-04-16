@@ -55,9 +55,18 @@ class App extends Component {
     }
 
     deleteTodo(todo) {
-        if (todo.deleted_at !== null) return;
-
         let {todos} = this.state;
+
+        if (todo.deleted_at !== null) {
+            const isNotId = (item) => item.id !== todo.id;
+
+            this.setState({
+                todos: todos.filter(isNotId),
+                loading: false,
+            });
+
+            return;
+        }
 
         fetch(`${SERVER_HOST}/todos/${todo.id}`, {
                 method: "DELETE",
